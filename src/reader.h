@@ -52,11 +52,11 @@ namespace AMOS {
 
   class BufferMark {
     public:
-    MarkType mark_type;
+    MarkType type;
     int lo;
     int hi;
 
-    BufferMark(MarkType type, int lo, int hi): mark_type(type), lo(lo), hi(hi) {}
+    BufferMark(MarkType type, int lo, int hi): type(type), lo(lo), hi(hi) {}
   };
 
   class Reader {
@@ -80,6 +80,7 @@ namespace AMOS {
       int buffer_next();
       int buffer_double();
       int buffer_clear();
+      class Read* read_from_buff();
   };
 }
 

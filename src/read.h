@@ -10,12 +10,12 @@ namespace AMOS {
       uint32_t iid;
       uint32_t clr_lo;
       uint32_t clr_hi;
-      const char *seq;
-      const char *qlt;
+      char *seq;
+      char *qlt;
 
       Read() : seq(nullptr), qlt(nullptr) {}
 
-      Read(uint32_t iid, uint32_t clr_lo, uint32_t clr_hi, const char *seq, const char *qlt)
+      Read(uint32_t iid, uint32_t clr_lo, uint32_t clr_hi, char *seq, char *qlt)
         :iid(iid), clr_lo(clr_lo), clr_hi(clr_hi), seq(seq), qlt(qlt)
       {}
 

@@ -64,10 +64,7 @@ namespace AMOS {
     }
 
     //cout << "READ " << buff << endl;
-    skip_next();
-    // add code for parsing read
-
-    return nullptr;
+    return read_from_buff();
   }
 
   int Reader::buffer_clear() {
@@ -96,6 +93,7 @@ namespace AMOS {
 
     if (input->eof()) return 0;
 
+    int seq_start = 0;
     while (true) {
       auto line = buff + buff_written;
 
@@ -111,7 +109,6 @@ namespace AMOS {
         return -1;
       }
 
-      int seq_start = 0;
       auto state = states.top();
       switch (state) {
         case OUT:
@@ -159,7 +156,8 @@ namespace AMOS {
         case IN_QLT:
         case IN_COM:
           if (line[0] == '.') {
-            buff_marks.push_back(BufferMark(ObjectDef, seq_start, buff_written));
+            // we do not want to include the '.' at the end
+            buff_marks.push_back(BufferMark(ObjectDef, seq_start, buff_written - 1));
             states.pop();
           }
           break;
@@ -174,5 +172,47 @@ namespace AMOS {
     }
 
     return -1;
+  }
+
+  class Read* Reader::read_from_buff() {
+    if (buff_written == 0) {
+      return nullptr;
+    }
+
+    if (strncmp(buff, "{RED", 4) != 0) {
+      return nullptr;
+    }
+
+    class Read* read = new class Read();
+
+    // use buffer marks to create a read from buffer
+    for (auto mark: buff_marks) {
+      // temporary terminate the string so we can use sscanf
+      char tmp = buff[mark.hi];
+      buff[mark.hi] = 0;
+
+      if (sscanf(buff + mark.lo, "clr:%d, %d", &read->clr_lo, &read->clr_hi)) {
+        // just skip other branches
+      } else if (sscanf(buff + mark.lo, "iid:%d", &read->iid)) {
+        // just skip other branches
+      } else if (strncmp(buff + mark.lo, "seq:", 4) == 0) {
+        int seq_start = mark.lo + 4;
+        int seq_len = mark.hi - seq_start;
+        read->seq = new char[seq_len + 1];
+        strncpy(read->seq, buff + seq_start, seq_len + 1);
+      } else if (strncmp(buff + mark.lo, "qlt:", 4) == 0) {
+        int qlt_start = mark.lo + 4;
+        int qlt_len = mark.hi - qlt_start;
+        read->qlt = new char[qlt_len + 1];
+        strncpy(read->qlt, buff + qlt_start, qlt_len + 1);
+      }
+
+      // return the right character back
+      buff[mark.hi] = tmp;
+    }
+
+    buffer_clear();
+
+    return read;
   }
 }
