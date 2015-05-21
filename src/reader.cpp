@@ -6,7 +6,6 @@
 #include <stack>
 
 #define BUFF_CAP 4096
-#define MAX_SEQ 524288
 
 using std::istream;
 using std::stack;
