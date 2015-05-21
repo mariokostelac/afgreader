@@ -49,13 +49,13 @@ namespace AMOS {
     return next_type_;
   }
 
-  class Read* Reader::next_read() {
+  Read* Reader::next_read() {
     //cerr << "NEXT_READ" << endl;
     if (!has_next()) {
       return nullptr;
     }
 
-    while (next_type() != ObjectType::Read) {
+    while (next_type() != READ) {
       //cerr << "WRONG TYPE" << endl;
       skip_next();
       if (!has_next()) {
@@ -114,19 +114,19 @@ namespace AMOS {
         case OUT:
           if (strncmp(line, "{RED", 4) == 0) {
             states.push(IN);
-            next_type_ = ObjectType::Read;
+            next_type_ = READ;
           } else if (strncmp(line, "{OVL", 4) == 0) {
             states.push(IN);
-            next_type_ = ObjectType::Overlap;
+            next_type_ = OVERLAP;
           } else if (strncmp(line, "{UNV", 4) == 0) {
             states.push(IN);
-            next_type_ = ObjectType::Universal;
+            next_type_ = UNIVERSAL;
           } else if (strncmp(line, "{LIB", 4) == 0) {
             states.push(IN);
-            next_type_ = ObjectType::Library;
+            next_type_ = LIBRARY;
           } else if (strncmp(line, "{FRG", 4) == 0) {
             states.push(IN);
-            next_type_ = ObjectType::Fragment;
+            next_type_ = FRAGMENT;
           } else {
             assert(false);
           }
@@ -174,7 +174,7 @@ namespace AMOS {
     return -1;
   }
 
-  class Read* Reader::read_from_buff() {
+  Read* Reader::read_from_buff() {
     if (buff_written == 0) {
       return nullptr;
     }
@@ -183,7 +183,7 @@ namespace AMOS {
       return nullptr;
     }
 
-    class Read* read = new class Read();
+    Read* read = new Read();
 
     // use buffer marks to create a read from buffer
     for (auto mark: buff_marks) {

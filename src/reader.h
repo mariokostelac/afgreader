@@ -22,27 +22,27 @@ namespace AMOS {
   };
 
   enum ObjectType {
-    Contig,
-    ContigEdge,
-    ContigLink,
-    Distribution,
-    Edge,
-    Feature,
-    Fragment,
-    Group,
-    IDMap,
-    Index,
-    Kmer,
-    Layout,
-    Library,
-    Link,
-    Overlap,
-    Read,
-    Scaffold,
-    ScaffoldEdge,
-    ScaffoldLink,
-    Sequence,
-    Universal
+    CONTIG,
+    CONTIG_EDGE,
+    CONTIGlINK,
+    DISTRIBUTION,
+    EDGE,
+    FEATURE,
+    FRAGMENT,
+    GROUP,
+    ID_MAP,
+    INDEX,
+    KMER,
+    LAYOUT,
+    LIBRARY,
+    LINK,
+    OVERLAP,
+    READ,
+    SCAFFOLD,
+    SCAFFOLD_EDGE,
+    SCAFFOLD_LINK,
+    SEQUENCE,
+    UNIVERSAL
   };
 
   enum MarkType {
@@ -65,8 +65,8 @@ namespace AMOS {
       bool has_next();
       int skip_next();
       ObjectType next_type();
-      class Read* next_read();
-      class Overlap* next_overlap();
+      Read* next_read();
+      Overlap* next_overlap();
 
     private:
       std::istream* input;
@@ -80,7 +80,7 @@ namespace AMOS {
       int buffer_next();
       int buffer_double();
       int buffer_clear();
-      class Read* read_from_buff();
+      Read* read_from_buff();
   };
 }
 
