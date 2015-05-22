@@ -43,6 +43,7 @@ namespace AMOS {
 
   enum MarkType {
     ObjectDef,
+    ObjectEnd,
     AttrDef
   };
 

@@ -135,6 +135,7 @@ namespace AMOS {
           break;
         case IN:
           if (line[0] == '}') {
+            buff_marks.push_back(BufferMark(ObjectEnd, line_start, buff_written));
             states.pop();
           } else if (strncmp(line, "seq:", 4) == 0) {
             states.push(IN_STR);
@@ -184,7 +185,11 @@ namespace AMOS {
     Read* read = new Read();
 
     // use buffer marks to create a read from buffer
-    for (auto mark: buff_marks) {
+    for (auto& mark: buff_marks) {
+      if (mark.type != AttrDef) {
+        continue;
+      }
+
       // temporary terminate the string so we can use sscanf
       char tmp = buff[mark.hi];
       buff[mark.hi] = 0;
