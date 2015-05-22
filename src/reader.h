@@ -14,11 +14,7 @@ namespace AMOS {
   enum ReaderState {
     OUT,
     IN,
-    IN_READ,
-    IN_SEQ,
-    IN_QLT,
-    IN_OVL,
-    IN_COM,
+    IN_STR
   };
 
   enum ObjectType {

@@ -137,13 +137,13 @@ namespace AMOS {
           if (line[0] == '}') {
             states.pop();
           } else if (strncmp(line, "seq:", 4) == 0) {
-            states.push(IN_SEQ);
+            states.push(IN_STR);
             seq_start = line_start;
           } else if (strncmp(line, "qlt:", 4) == 0) {
-            states.push(IN_QLT);
+            states.push(IN_STR);
             seq_start = line_start;
           } else if (strncmp(line, "com:", 4) == 0) {
-            states.push(IN_COM);
+            states.push(IN_STR);
             seq_start = line_start;
           } else if (strncmp(line, "{DST", 4) == 0) {
             buff_marks.push_back(BufferMark(ObjectDef, line_start, buff_written));
@@ -152,9 +152,7 @@ namespace AMOS {
             buff_marks.push_back(BufferMark(AttrDef, line_start, buff_written));
           }
           break;
-        case IN_SEQ:
-        case IN_QLT:
-        case IN_COM:
+        case IN_STR:
           if (line[0] == '.') {
             // we do not want to include the '.' at the end
             buff_marks.push_back(BufferMark(ObjectDef, seq_start, buff_written - 1));
