@@ -78,6 +78,7 @@ namespace AMOS {
       int buffer_double();
       int buffer_clear();
       Read* read_from_buff();
+      Overlap* overlap_from_buff();
   };
 }
 

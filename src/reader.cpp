@@ -67,6 +67,21 @@ namespace AMOS {
     return read_from_buff();
   }
 
+  Overlap* Reader::next_overlap() {
+    if (!has_next()) {
+      return nullptr;
+    }
+
+    while (next_type() != OVERLAP) {
+      skip_next();
+      if (!has_next()) {
+        return nullptr;
+      }
+    }
+
+    return overlap_from_buff();
+  }
+
   int Reader::buffer_clear() {
     //cerr << "FLUSH " << buff << endl;
     int was_written = buff_written;
@@ -217,5 +232,47 @@ namespace AMOS {
     buffer_clear();
 
     return read;
+  }
+
+  Overlap* Reader::overlap_from_buff() {
+    if (buff_written == 0) {
+      return nullptr;
+    }
+
+    if (strncmp(buff, "{OVL", 4) != 0) {
+      return nullptr;
+    }
+
+    Overlap* overlap = new Overlap();
+
+    // use buffer marks to create an overlap from buffer
+    for (auto& mark: buff_marks) {
+      if (mark.type != AttrDef) {
+        continue;
+      }
+
+      // temporary terminate the string so we can use sscanf
+      char tmp = buff[mark.hi];
+      buff[mark.hi] = 0;
+
+      if (sscanf(buff + mark.lo, "rds:%d, %d", &overlap->read1, &overlap->read2)) {
+        // just skip other branches
+      } else if (sscanf(buff + mark.lo, "adj:%c", &overlap->adjacency)) {
+        // just skip other branches
+      } else if (sscanf(buff + mark.lo, "scr:%d", &overlap->score)) {
+        // just skip other branches
+      } else if (sscanf(buff + mark.lo, "ahg:%d", &overlap->a_hang)) {
+        // just skip other branches
+      } else if (sscanf(buff + mark.lo, "bhg:%d", &overlap->b_hang)) {
+        // just skip other branches
+      }
+
+      // return the right character back
+      buff[mark.hi] = tmp;
+    }
+
+    buffer_clear();
+
+    return overlap;
   }
 }
