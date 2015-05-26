@@ -14,15 +14,15 @@ namespace AMOS {
   //
 
   bool Overlap::use_start(const uint32_t read) const {
-    if (read != read1 && read != read2) {
+    if (read != a_id && read != b_id) {
       return false;
     }
 
-    if (read == read1 && a_hang <= 0) {
+    if (read == a_id && a_hang <= 0) {
       return true;
-    } else if (read == read2 && adjacency == 'N' && a_hang >= 0) {
+    } else if (read == b_id && adjacency == 'N' && a_hang >= 0) {
       return true;
-    } else if (read == read2 && adjacency == 'I' && b_hang <= 0) {
+    } else if (read == b_id && adjacency == 'I' && b_hang <= 0) {
       return true;
     }
 
@@ -30,15 +30,15 @@ namespace AMOS {
   }
 
   bool Overlap::use_end(const uint32_t read) const {
-    if (read != read1 && read != read2) {
+    if (read != a_id && read != b_id) {
       return false;
     }
 
-    if (read == read1 && b_hang >= 0) {
+    if (read == a_id && b_hang >= 0) {
       return true;
-    } else if (read == read2 && adjacency == 'N' && b_hang <= 0) {
+    } else if (read == b_id && adjacency == 'N' && b_hang <= 0) {
       return true;
-    } else if (read == read2 && adjacency == 'I' && a_hang >= 0) {
+    } else if (read == b_id && adjacency == 'I' && a_hang >= 0) {
       return true;
     }
 
@@ -48,7 +48,7 @@ namespace AMOS {
   ostream& operator << (ostream &o, const Overlap& overlap) {
     o << "{OVL" << endl;
     o << "adj:" << overlap.adjacency << endl;
-    o << "rds:" << overlap.read1 << "," << overlap.read2 << endl;
+    o << "rds:" << overlap.a_id << "," << overlap.b_id << endl;
     o << "ahg:" << overlap.a_hang << endl;
     o << "bhg:" << overlap.b_hang << endl;
     o << "scr:" << overlap.score << endl;

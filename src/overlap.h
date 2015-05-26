@@ -8,15 +8,16 @@ using namespace std;
 namespace AMOS {
   class Overlap {
     public:
-      uint32_t read1;
-      uint32_t read2;
-      char adjacency;
+      uint32_t a_id;
+      uint32_t b_id;
       int32_t a_hang;
       int32_t b_hang;
+
+      char adjacency;
       uint32_t score;
 
       Overlap(const uint32_t r1, const uint32_t r2, const char adj, const int32_t ahg, const int32_t bhg, const int32_t scr)
-        :read1(r1), read2(r2), adjacency(adj), a_hang(ahg), b_hang(bhg), score(scr)
+        :a_id(r1), b_id(r2), adjacency(adj), a_hang(ahg), b_hang(bhg), score(scr)
       {
         assert(adj == 'N' || adj == 'I');
       }

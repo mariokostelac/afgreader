@@ -10,6 +10,6 @@ int main(int argc, char** argv) {
   while (reader->has_next()) {
     Overlap o;
     reader->next(&o);
-    cout << o.adjacency << " " << o.read1 << " " << o.read2 << " " << o.a_hang << " " << o.b_hang << endl;
+    cout << o.adjacency << " " << o.a_id << " " << o.b_id << " " << o.a_hang << " " << o.b_hang << endl;
   }
 }

@@ -250,7 +250,7 @@ namespace AMOS {
       char tmp = buff[mark.hi];
       buff[mark.hi] = 0;
 
-      if (sscanf(buff + mark.lo, "rds:%d, %d", &overlap->read1, &overlap->read2)) {
+      if (sscanf(buff + mark.lo, "rds:%u, %u", &overlap->a_id, &overlap->b_id)) {
         // just skip other branches
       } else if (sscanf(buff + mark.lo, "adj:%c", &overlap->adjacency)) {
         // just skip other branches
