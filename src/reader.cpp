@@ -212,14 +212,10 @@ namespace AMOS {
         // just skip other branches
       } else if (strncmp(buff + mark.lo, "seq:", 4) == 0) {
         int seq_start = mark.lo + 4;
-        int seq_len = mark.hi - seq_start;
-        read->seq = new char[seq_len + 1];
-        strncpy(read->seq, buff + seq_start, seq_len + 1);
+        read->seq = string(buff + seq_start);
       } else if (strncmp(buff + mark.lo, "qlt:", 4) == 0) {
         int qlt_start = mark.lo + 4;
-        int qlt_len = mark.hi - qlt_start;
-        read->qlt = new char[qlt_len + 1];
-        strncpy(read->qlt, buff + qlt_start, qlt_len + 1);
+        read->qlt = string(buff + qlt_start);
       }
 
       // return the right character back

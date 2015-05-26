@@ -1,4 +1,7 @@
 #include "overlap.h"
+#include <memory>
+
+using std::shared_ptr;
 
 namespace AMOS {
 
@@ -13,7 +16,47 @@ namespace AMOS {
   // read b      -------------------|-------------->     -bhang
   //
 
-  bool Overlap::use_start(const uint32_t read) const {
+  int32_t Overlap::length() const {
+    return (overlap_length_a() + overlap_length_b())/2;
+  }
+
+  int32_t Overlap::length(const uint32_t r_id) const {
+    if (r_id == a_id) {
+      return overlap_length_a();
+    } else if (r_id == b_id) {
+      return overlap_length_b();
+    } else {
+      return -1;
+    }
+  }
+
+  int32_t Overlap::overlap_length_a() const {
+    int len = a->seq.length();
+    if (a_hang > 0) {
+      len -= a_hang;
+    }
+
+    if (b_hang < 0) {
+      len -= b_hang;
+    }
+
+    return len;
+  }
+
+  int32_t Overlap::overlap_length_b() const {
+    int len = b->seq.length();
+    if (b_hang > 0) {
+      len -= b_hang;
+    }
+
+    if (a_hang < 0) {
+      len -= a_hang;
+    }
+
+    return len;
+  }
+
+  bool Overlap::use_prefix(const uint32_t read) const {
     if (read != a_id && read != b_id) {
       return false;
     }
@@ -29,7 +72,7 @@ namespace AMOS {
     return false;
   }
 
-  bool Overlap::use_end(const uint32_t read) const {
+  bool Overlap::use_suffix(const uint32_t read) const {
     if (read != a_id && read != b_id) {
       return false;
     }
@@ -43,6 +86,24 @@ namespace AMOS {
     }
 
     return false;
+  }
+
+  int32_t Overlap::hanging_length(const uint32_t r_id) const {
+    if (r_id == a_id) {
+      return hanging_length_a();
+    } else if (r_id == b_id) {
+      return hanging_length_b();
+    } else {
+      return -1;
+    }
+  }
+
+  uint32_t Overlap::hanging_length_a() const {
+    return a->seq.length() - overlap_length_a();
+  }
+
+  uint32_t Overlap::hanging_length_b() const {
+    return b->seq.length() - overlap_length_b();
   }
 
   ostream& operator << (ostream &o, const Overlap& overlap) {

@@ -2,6 +2,7 @@
 #define _AMOS_READ_H
 
 #include <cstdint>
+#include <string>
 
 namespace AMOS {
 
@@ -10,23 +11,14 @@ namespace AMOS {
       uint32_t iid;
       uint32_t clr_lo;
       uint32_t clr_hi;
-      char *seq;
-      char *qlt;
+      std::string seq;
+      std::string qlt;
 
       Read() : seq(nullptr), qlt(nullptr) {}
 
-      Read(uint32_t iid, uint32_t clr_lo, uint32_t clr_hi, char *seq, char *qlt)
+      Read(uint32_t iid, uint32_t clr_lo, uint32_t clr_hi, const std::string seq, const std::string qlt)
         :iid(iid), clr_lo(clr_lo), clr_hi(clr_hi), seq(seq), qlt(qlt)
       {}
-
-      ~Read() {
-        if (seq != nullptr) {
-          delete[] seq;
-        }
-        if (qlt != nullptr) {
-          delete[] qlt;
-        }
-      }
   };
 }
 #endif
