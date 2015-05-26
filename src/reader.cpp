@@ -49,8 +49,7 @@ namespace AMOS {
     return next_type_;
   }
 
-  Read* Reader::next_read() {
-    //cerr << "NEXT_READ" << endl;
+  bool Reader::next(Read* dst) {
     if (!has_next()) {
       return nullptr;
     }
@@ -59,27 +58,27 @@ namespace AMOS {
       //cerr << "WRONG TYPE" << endl;
       skip_next();
       if (!has_next()) {
-        return nullptr;
+        return false;
       }
     }
 
     //cout << "READ " << buff << endl;
-    return read_from_buff();
+    return read_from_buff(dst);
   }
 
-  Overlap* Reader::next_overlap() {
+  bool Reader::next(Overlap* dst) {
     if (!has_next()) {
-      return nullptr;
+      return false;
     }
 
     while (next_type() != OVERLAP) {
       skip_next();
       if (!has_next()) {
-        return nullptr;
+        return false;
       }
     }
 
-    return overlap_from_buff();
+    return overlap_from_buff(dst);
   }
 
   int Reader::buffer_clear() {
@@ -188,16 +187,14 @@ namespace AMOS {
     return -1;
   }
 
-  Read* Reader::read_from_buff() {
+  bool Reader::read_from_buff(Read* read) {
     if (buff_written == 0) {
-      return nullptr;
+      return false;
     }
 
     if (strncmp(buff, "{RED", 4) != 0) {
-      return nullptr;
+      return false;
     }
-
-    Read* read = new Read();
 
     // use buffer marks to create a read from buffer
     for (auto& mark: buff_marks) {
@@ -231,19 +228,17 @@ namespace AMOS {
 
     buffer_clear();
 
-    return read;
+    return true;
   }
 
-  Overlap* Reader::overlap_from_buff() {
+  bool Reader::overlap_from_buff(Overlap* overlap) {
     if (buff_written == 0) {
-      return nullptr;
+      return false;
     }
 
     if (strncmp(buff, "{OVL", 4) != 0) {
-      return nullptr;
+      return false;
     }
-
-    Overlap* overlap = new Overlap();
 
     // use buffer marks to create an overlap from buffer
     for (auto& mark: buff_marks) {
@@ -273,6 +268,6 @@ namespace AMOS {
 
     buffer_clear();
 
-    return overlap;
+    return true;
   }
 }
