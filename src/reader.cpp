@@ -170,7 +170,7 @@ namespace AMOS {
         case IN_STR:
           if (line[0] == '.') {
             // we do not want to include the '.' at the end
-            buff_marks.push_back(BufferMark(ObjectDef, seq_start, buff_written - 1));
+            buff_marks.push_back(BufferMark(AttrDef, seq_start, buff_written - 1));
             states.pop();
           }
           break;
