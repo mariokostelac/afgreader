@@ -37,7 +37,7 @@ namespace AMOS {
     }
 
     if (b_hang < 0) {
-      len -= b_hang;
+      len += b_hang;
     }
 
     return len;
@@ -50,7 +50,7 @@ namespace AMOS {
     }
 
     if (a_hang < 0) {
-      len -= a_hang;
+      len += a_hang;
     }
 
     return len;
