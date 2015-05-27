@@ -41,8 +41,18 @@ namespace AMOS {
       // read b      -------------------|-------------->     -bhang
       //
 
+      // Returns whether the start of read is contained in overlap.
+      // It respects direction, so if overlap looks like
+      // ----->
+      //   <-----
+      // it will return false for second read.
       bool use_prefix(const uint32_t read) const;
 
+      // Returns whether the end of read is contained in overlap.
+      // It respects direction, so if overlap looks like
+      // ----->
+      //   <-----
+      // it will return true for second read.
       bool use_suffix(const uint32_t read) const;
 
       // length returns the overlap's length.
@@ -55,15 +65,6 @@ namespace AMOS {
       int32_t overlap_length_a() const;
 
       int32_t overlap_length_b() const;
-
-      // Returns which end of the read this overlap is using.
-      // 0 for prefix, 1 for suffix.
-      // It respects direction, so if overlap looks like
-      // ----->
-      // <-----
-      // it will return 1 for second read.
-      //
-      // Returns -1 if wrong r_id is given.
 
       int32_t hanging_length(const uint32_t r_id) const;
       uint32_t hanging_length_a() const;
