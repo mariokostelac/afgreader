@@ -3,7 +3,6 @@
 #include "read.h"
 
 #include <iostream>
-#include <memory>
 #include <cstdint>
 #include <cassert>
 
@@ -12,8 +11,8 @@ using namespace std;
 namespace AMOS {
   class Overlap {
     public:
-      shared_ptr<Read> a;
-      shared_ptr<Read> b;
+      Read* a;
+      Read* b;
       uint32_t a_id;
       uint32_t b_id;
       int32_t a_hang;
