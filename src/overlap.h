@@ -42,12 +42,12 @@ namespace AMOS {
       //
 
       // returns a_id
-      uint32_t read1_id();
+      uint32_t read1_id() const;
 
       // returns b_id
-      uint32_t read2_id();
+      uint32_t read2_id() const;
 
-      bool contained(uint32_t read_id);
+      bool contained(uint32_t read_id) const;
 
       // Returns whether the start of read is contained in overlap.
       // It respects direction, so if overlap looks like

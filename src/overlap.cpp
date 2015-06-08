@@ -15,15 +15,15 @@ namespace AMOS {
   // read a           -ahang     ---------------|--------------->
   // read b      -------------------|-------------->     -bhang
 
-  uint32_t Overlap::read1_id() {
+  uint32_t Overlap::read1_id() const {
     return a_id;
   }
 
-  uint32_t Overlap::read2_id() {
+  uint32_t Overlap::read2_id() const {
     return b_id;
   }
 
-  bool Overlap::contained(uint32_t read_id) {
+  bool Overlap::contained(uint32_t read_id) const {
     if (read_id == a_id) {
       return a_hang <= 0 && b_hang >= 0;
     } else if (read_id == b_id) {
